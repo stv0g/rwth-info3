@@ -1,1 +1,4 @@
-.metadata/
+/.metadata/
+*.o
+*.a
+*~
