@@ -15,13 +15,22 @@ using namespace std;
 class Fahrzeug {
 public:
 	Fahrzeug();
+	Fahrzeug(Fahrzeug &fz);
 	Fahrzeug(string sName);
+	Fahrzeug(string sName, double dMaxGeschwindkeit);
+
 	virtual ~Fahrzeug();
 
-	void vAusgabe();
+	virtual void vAusgabe() const;
+	virtual ostream& ostreamAusgabe(ostream &stream) const;
+
 	virtual void vAbfertigung();
-	virtual double dTanken(double dMenge) { return 0; }; /* Kraftfahrzeuge überladen dTanken() */
-	virtual double dGeschwindigkeit() { return p_dMaxGeschwindigkeit; }
+	virtual double dTanken(double dMenge = 0.0) { return 0; };
+	virtual double dGeschwindigkeit() const { return p_dMaxGeschwindigkeit; }
+
+	bool operator<(Fahrzeug fz);
+
+	static void vAusgabeHeader();
 
 protected:
 	int p_iID;
@@ -36,5 +45,7 @@ private:
 
 	void vInitialisierung();
 };
+
+ostream& operator<<(ostream &out, const Fahrzeug fz);
 
 #endif /* FAHRZEUG_H_ */
