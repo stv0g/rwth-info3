@@ -1,4 +1,9 @@
 /.metadata/
+.settings/
+
+.project
+.cproject
+
 *.o
 *.a
 *~
