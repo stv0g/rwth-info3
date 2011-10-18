@@ -7,6 +7,7 @@ using namespace std;
 
 class Fahrrad: public Fahrzeug {
 public:
+	Fahrrad();
 	Fahrrad(string sName, double dMaxGeschwindigkeit);
 	virtual ~Fahrrad();
 

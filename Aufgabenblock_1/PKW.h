@@ -16,6 +16,7 @@ using namespace std;
 
 class PKW: public Fahrzeug {
 public:
+	PKW();
 	PKW(string sName, double dMaxGeschwindigkeit);
 	PKW(string sName, double dMaxGeschwindigkeit, double dVerbrauch, double dTankvolumen = 55);
 	virtual ~PKW();

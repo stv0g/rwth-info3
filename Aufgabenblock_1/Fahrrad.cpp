@@ -2,6 +2,9 @@
 
 #include "Fahrrad.h"
 
+/* Standardkonstruktor */
+Fahrrad::Fahrrad() : Fahrzeug() { }
+
 Fahrrad::Fahrrad(string sName, double dMaxGeschwindigkeit) :
 	Fahrzeug(sName, dMaxGeschwindigkeit) { }
 

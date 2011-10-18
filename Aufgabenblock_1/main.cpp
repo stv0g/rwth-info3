@@ -128,11 +128,28 @@ void vAufgabe2() {
 void vAufgabe3() {
 	PKW vw("Golf", 200, 6.7, 88);
 	Fahrrad velo("Haibike", 22);
-	Fahrzeug sch("Schiff", 22);
+	Fahrzeug boat("Schiff", 11);
 
-	PKW::vAusgabeHeader();
+	dGlobaleZeit += 1.0;
+	velo.vAbfertigung();
 
-	cout << vw << endl << velo << endl << sch;
+	Fahrzeug::vAusgabeHeader();
+	cout << vw << endl << velo << endl << boat << endl << endl;
+
+	if (vw < velo) {
+		cout << "Das Fahrrad ist bereits weiter gefahren" << endl;
+	}
+	else {
+		cout << "Der Golf ist bereits weiter gefahren" << endl;
+	}
+
+	Fahrrad veloKopie = velo;	/* benutze Kopier Konstrukutor */
+	Fahrrad veloKopie2;
+
+	veloKopie2 = velo;			/* benutze Zuweisungsoperator */
+
+	Fahrzeug::vAusgabeHeader();
+	cout << veloKopie << endl << veloKopie2 << endl;
 }
 
 int main() {

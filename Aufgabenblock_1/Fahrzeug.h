@@ -15,7 +15,7 @@ using namespace std;
 class Fahrzeug {
 public:
 	Fahrzeug();
-	Fahrzeug(Fahrzeug &fz);
+	Fahrzeug(Fahrzeug &fz); /* Kopier Konstruktor */
 	Fahrzeug(string sName);
 	Fahrzeug(string sName, double dMaxGeschwindkeit);
 
@@ -25,10 +25,11 @@ public:
 	virtual ostream& ostreamAusgabe(ostream &stream) const;
 
 	virtual void vAbfertigung();
-	virtual double dTanken(double dMenge = 0.0) { return 0; };
-	virtual double dGeschwindigkeit() const { return p_dMaxGeschwindigkeit; }
+	virtual double dTanken(double dMenge = 0.0);
+	virtual double dGeschwindigkeit() const;
 
-	bool operator<(Fahrzeug fz);
+	bool operator<(Fahrzeug &fz) const;
+	//Fahrzeug & operator=(Fahrzeug &fz); /* benutze Standardzuweisungs Operator */
 
 	static void vAusgabeHeader();
 
@@ -46,6 +47,6 @@ private:
 	void vInitialisierung();
 };
 
-ostream& operator<<(ostream &out, const Fahrzeug fz);
+ostream& operator<<(ostream &out, const Fahrzeug &fz);
 
 #endif /* FAHRZEUG_H_ */

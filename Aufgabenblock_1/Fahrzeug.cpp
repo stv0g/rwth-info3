@@ -8,18 +8,21 @@ extern double dGlobaleZeit;
 
 int Fahrzeug::p_iMaxID = 0;
 
+/* Standardkonstruktor */
 Fahrzeug::Fahrzeug() {
 	vInitialisierung();
 	//cout << this->p_sName << ":" << this->p_iID << " wurde initialisiert" << endl;
 }
 
+/* Kopierkonstruktor */
 Fahrzeug::Fahrzeug(Fahrzeug &fz) {
 	vInitialisierung();
 
 	p_sName = fz.p_sName;
 	p_dMaxGeschwindigkeit = fz.p_dMaxGeschwindigkeit;
 
-	/* p_dGesamtStrecke, p_dGesamtZeit, p_dZeit werden auf 0 gesetzt */
+	/* p_dGesamtStrecke, p_dGesamtZeit, p_dZeit werden auf 0 gesetzt,
+	 * da das kopierte noch keine Strecke zurückgelegt hat */
 }
 
 Fahrzeug::Fahrzeug(string sName) {
@@ -43,7 +46,7 @@ Fahrzeug::~Fahrzeug() {
 void Fahrzeug::vInitialisierung() {
 	p_iID = ++p_iMaxID;
 
-	p_sName = " ";
+	p_sName = "";
 	p_dMaxGeschwindigkeit = 0;
 	p_dGesamtStrecke = 0;
 	p_dGesamtZeit = 0;
@@ -79,7 +82,7 @@ ostream& Fahrzeug::ostreamAusgabe(ostream &stream) const {
 }
 
 void Fahrzeug::vAbfertigung() {
-	/* nicht doppelt abfertigen */
+	/* nicht doppelt abfertigen (Gleitkommavgl.) */
 	if (fabs(p_dZeit - dGlobaleZeit) < 1e-10) return;
 
 	double dDelta = dGlobaleZeit - p_dZeit;
@@ -89,10 +92,18 @@ void Fahrzeug::vAbfertigung() {
 	p_dZeit = dGlobaleZeit;
 }
 
-bool Fahrzeug::operator<(Fahrzeug fz) {
-	return (p_dGesamtStrecke < fz.p_dGesamtStrecke);
+double Fahrzeug::dGeschwindigkeit() {
+	return p_dMaxGeschwindigkeit;
 }
 
-ostream& operator<<(ostream &stream, const Fahrzeug fz) {
+double Fahrzeug::dTanken(double dMenge = 0.0) {
+	return 0;
+};
+
+bool Fahrzeug::operator<(Fahrzeug &fz) const {
+	return (this->p_dGesamtStrecke < fz.p_dGesamtStrecke);
+}
+
+ostream& operator<<(ostream &stream, const Fahrzeug &fz) {
 	return fz.ostreamAusgabe(stream);
 }
