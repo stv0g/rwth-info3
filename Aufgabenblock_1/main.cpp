@@ -111,7 +111,7 @@ void vAufgabe2() {
 
 	Fahrzeug::vAusgabeHeader();
 
-	for ( ; dGlobaleZeit < 6; dGlobaleZeit += dAbfertigungsIntervall) {
+	for ( ; dGlobaleZeit < 24; dGlobaleZeit += dAbfertigungsIntervall) {
 		vector<Fahrzeug *>::iterator it;
 		for (it = fahrzeuge.begin(); it != fahrzeuge.end(); it++) {
 			if (dGlobaleZeit > 3 && iNachgetankt < fahrzeuge.size()) {
@@ -122,6 +122,8 @@ void vAufgabe2() {
 			(*it)->vAbfertigung();
 			(*it)->vAusgabe();
 		}
+
+        cout << endl << "Globale Zeit: " << dGlobaleZeit;
 	}
 }
 
@@ -132,6 +134,8 @@ void vAufgabe3() {
 
 	dGlobaleZeit += 1.0;
 	velo.vAbfertigung();
+    vw.vAbfertigung();
+    boat.vAbfertigung();
 
 	Fahrzeug::vAusgabeHeader();
 	cout << vw << endl << velo << endl << boat << endl << endl;
@@ -142,6 +146,7 @@ void vAufgabe3() {
 	else {
 		cout << "Der Golf ist bereits weiter gefahren" << endl;
 	}
+    cout << endl;
 
 	Fahrrad veloKopie = velo;	/* benutze Kopier Konstrukutor */
 	Fahrrad veloKopie2;
@@ -152,29 +157,43 @@ void vAufgabe3() {
 	cout << veloKopie << endl << veloKopie2 << endl;
 }
 
+typedef void (*aufgabe_t)(void);
+#define NUM_AUFGABEN 4
+
 int main() {
 	int iWahl;
 
+    aufgabe_t pAufgaben[] = {
+        &vAufgabe1_deb,
+        &vAufgabe1,
+        &vAufgabe2,
+        &vAufgabe3
+    };
+
 	retry:
 
+    cout << "0: vAufgabe1_deb()" << endl;
 	cout << "1: vAufgabe1()" << endl;
-	cout << "2: vAufgabe1_deb()" << endl;
-	cout << "3: vAufgabe2()" << endl;
-	cout << "4: vAufgabe3()" << endl;
+	cout << "2: vAufgabe2()" << endl;
+	cout << "3: vAufgabe3()" << endl;
 	cout << "Bitte wähen Sie eine Aufgabe: ";
 	cin >> iWahl;
 	cout << endl;
 
-	switch (iWahl) {
-		case 1: vAufgabe1(); break;
-		case 2: vAufgabe1_deb(); break;
-		case 3: vAufgabe2(); break;
-		case 4: vAufgabe3(); break;
-		default:
-			cerr << "Ungültige Eingabe! Bitte versuchen Sie es erneut" << endl;
-			goto retry;
-	}
+    if (iWahl > NUM_AUFGABEN || iWahl < 0) {
+        cerr << "Ungültige Eingabe! Bitte versuchen Sie es erneut" << endl;
+        goto retry;
+    }
+ 
+	pAufgaben[iWahl](); /* Funktionspointer aufrufen */
+	
+	cout << endl << endl << "Nochmal? (0/1): ";
+    cin >> iWahl;
+    cout << endl;
 
-	cout << endl;
+    if (iWahl) {
+        goto retry;
+    }
+
 	return 0;
 }

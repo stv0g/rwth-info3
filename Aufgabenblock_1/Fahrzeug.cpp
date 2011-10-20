@@ -92,12 +92,12 @@ void Fahrzeug::vAbfertigung() {
 	p_dZeit = dGlobaleZeit;
 }
 
-double Fahrzeug::dGeschwindigkeit() {
+double Fahrzeug::dGeschwindigkeit() const {
 	return p_dMaxGeschwindigkeit;
 }
 
-double Fahrzeug::dTanken(double dMenge = 0.0) {
-	return 0;
+double Fahrzeug::dTanken(double dMenge) {
+	return 0.0;
 };
 
 bool Fahrzeug::operator<(Fahrzeug &fz) const {
