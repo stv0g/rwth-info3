@@ -23,9 +23,9 @@ public:
 	virtual ~Weg();
 
 	void vAbfertigung();
-	void vAnnahme(Fahrzeug *pFz);
-
+	void vAnnahme(Fahrzeug *pFz, double dStartZeit = 0);
 	double getLaenge() const;
+	Begrenzung getLimit() const;
 
 	ostream& ostreamAusgabe(ostream &stream) const;
 

@@ -8,10 +8,11 @@ public:
 	FzgVerhalten(Weg *pWeg);
 	virtual ~FzgVerhalten();
 
-	double dStrecke(Fahrzeug *pFz, double dZeit);
+	virtual double dStrecke(Fahrzeug *pFz, double dDelta) = 0;
+	double getMaxgeschwindigkeit();
 
-private:
-	Weg * p_pWeg;
+protected:
+	Weg *p_pWeg;
 
 };
 

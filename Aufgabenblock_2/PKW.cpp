@@ -73,3 +73,7 @@ ostream& PKW::ostreamAusgabe(ostream &stream) const {
 double PKW::dVerbrauch() const {
 	return p_dGesamtStrecke * p_dVerbrauch / 100;
 }
+
+double PKW::getTankinhalt() const {
+	return p_dTankinhalt;
+}

@@ -12,7 +12,9 @@ public:
 	AktivesVO(string sName);
 	virtual ~AktivesVO();
 
+	static void vAusgabeHeader();
 	virtual ostream& ostreamAusgabe(ostream &stream) const;
+
 	virtual void vAbfertigung() = 0; /* AktivesVO ist eine abstrakte Klasse */
 
 	string getName() const;

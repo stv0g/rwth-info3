@@ -2,6 +2,7 @@
 #include <vector>
 #include <iostream>
 
+#include "SimuClient.h"
 #include "Fahrzeug.h"
 #include "Fahrrad.h"
 #include "PKW.h"
@@ -36,7 +37,6 @@ void vAufgabe1() {
 		fz2->vAbfertigung();
 		fz3->vAbfertigung();
 
-		cout << endl << "globale Zeit: " << dGlobaleZeit;
 		cout << fz1 << endl << *fz2 << endl << *fz3 << endl;
 	}
 
@@ -152,19 +152,55 @@ void vAufgabe3() {
 }
 
 void vAufgabe4() {
-	Weg weg("Allee", 15.0, Landstrasse);
-	PKW vw("Golf", 120, 6.7, 88);
+	Weg weg("Allee", 150.0, Landstrasse);
+	PKW vw("Golf", 110, 6.7, 88);
 	Fahrrad velo("Haibike", 22);
 
 	weg.vAnnahme(&vw);
-	weg.vAnnahme(&velo);
+	weg.vAnnahme(&velo, 1.1);
 
 	Fahrzeug::vAusgabeHeader();
-	while (1) {
-		dGlobaleZeit += 1.0/60;
+	while (dGlobaleZeit < 10) {
+		dGlobaleZeit += 0.1;
 		weg.vAbfertigung();
-		cout << vw << endl << velo << endl << weg << endl << "Globale Zeit: " << dGlobaleZeit << endl;
+		cout << vw << endl << velo << endl << weg << endl;
 	}
+}
+
+void vAufgabe5() {
+	Weg hin("Hinweg", 500.0, Landstrasse);
+	Weg rueck("Rueckweg", 500.0, Landstrasse);
+
+	PKW vw("Golf", 110, 6.7, 88);
+	Fahrrad velo("Haibike", 22);
+
+	bool bStarted = bInitialisiereGrafik(800, 600, true);
+	if (!bStarted) {
+		cerr << "Konnte Simulationsserver nicht starten!" << endl;
+	}
+
+	int iKoordinaten[] = {100, 100, 700, 500 };
+	bZeichneStrasse(hin.getName(), rueck.getName(), hin.getLaenge(), 2, iKoordinaten);
+
+	hin.vAnnahme(&vw);
+	rueck.vAnnahme(&velo);
+
+	Fahrzeug::vAusgabeHeader();
+	while (dGlobaleZeit < 10) {
+		dGlobaleZeit += 0.3;
+		hin.vAbfertigung();
+		rueck.vAbfertigung();
+
+		vSetzeZeit(dGlobaleZeit);
+		bZeichnePKW(vw.getName(), hin.getName(), vw.getAbschnittStrecke() / hin.getLaenge(), vw.dGeschwindigkeit(), vw.getTankinhalt());
+		bZeichneFahrrad(velo.getName(), rueck.getName(), velo.getAbschnittStrecke() / hin.getLaenge(), velo.dGeschwindigkeit());
+
+		cout << vw << endl << velo << endl << hin << endl << rueck << endl;
+
+		Sleep(500);
+	}
+
+	vBeendeGrafik();
 }
 
 int main() {
@@ -177,6 +213,7 @@ int main() {
 	cout << "2: vAufgabe2()" << endl;
 	cout << "3: vAufgabe3()" << endl;
 	cout << "4: vAufgabe4()" << endl;
+	cout << "5: vAufgabe5()" << endl;
 	cout << "Bitte wähen Sie eine Aufgabe: ";
 	cin >> iWahl;
 	cout << endl;
@@ -187,6 +224,7 @@ int main() {
 		case 2: vAufgabe2(); break;
 		case 3: vAufgabe3(); break;
 		case 4: vAufgabe4(); break;
+		case 5: vAufgabe5(); break;
 		default:
 			cerr << "Ungültige Eingabe! Bitte versuchen Sie es erneut" << endl;
 			goto retry;

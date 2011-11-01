@@ -25,6 +25,7 @@ public:
 	ostream& ostreamAusgabe(ostream &stream) const;
 	double dVerbrauch() const;
 	double dTanken(double dMenge = 0.0);
+	double getTankinhalt() const;
 
 private:
 	double p_dVerbrauch;

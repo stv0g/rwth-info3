@@ -20,14 +20,13 @@ public:
 	virtual void vAbfertigung();
 	virtual double dTanken(double dMenge = 0.0);
 	virtual double dGeschwindigkeit() const;
-	void vNeueStrecke(Weg *pWeg);
+	void vNeueStrecke(Weg *pWeg, double dStartZeit = 0.0);
 
 	double getAbschnittStrecke() const;
 
 	bool operator<(Fahrzeug &fz) const;
 	//Fahrzeug & operator=(Fahrzeug &fz); /* benutze Standardzuweisungs Operator */
 
-	static void vAusgabeHeader();
 	virtual ostream& ostreamAusgabe(ostream &stream) const;
 
 protected:
