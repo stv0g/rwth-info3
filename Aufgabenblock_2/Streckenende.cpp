@@ -11,5 +11,7 @@ Streckenende::~Streckenende()
 { }
 
 void Streckenende::vBearbeiten() {
-	cout << "Fahrausnahme: Streckenende (Fzg: " << *p_pFahrzeug << ", Weg: " << *p_pWeg << ")" << endl;
+	cerr << "Fahrausnahme: Streckenende (Fzg: " << *p_pFahrzeug << ", Weg: " << *p_pWeg << ")" << endl;
+
+	p_pWeg->vAbgabe(p_pFahrzeug);
 }

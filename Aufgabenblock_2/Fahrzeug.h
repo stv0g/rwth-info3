@@ -19,6 +19,7 @@ public:
 
 	virtual void vAbfertigung();
 	virtual double dTanken(double dMenge = 0.0);
+	virtual void vZeichnen(Weg *pWeg) const;
 	virtual double dGeschwindigkeit() const;
 	void vNeueStrecke(Weg *pWeg, double dStartZeit = 0.0);
 

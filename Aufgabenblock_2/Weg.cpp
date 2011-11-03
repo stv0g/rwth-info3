@@ -1,5 +1,6 @@
 #include <iostream>
 #include <iomanip>
+#include <algorithm>
 
 #include "Weg.h"
 #include "Fahrzeug.h"
@@ -22,18 +23,17 @@ Weg::~Weg()
 
 /* fertige alle Fahrzeuge auf Weg ab */
 void Weg::vAbfertigung() {
-	list<Fahrzeug *>::const_iterator iterator;
+	list<Fahrzeug *>::iterator it;
 
-	for (iterator = p_pFahrzeuge.begin(); iterator != p_pFahrzeuge.end(); ++iterator) {
+	for (it = p_pFahrzeuge.begin(); it != p_pFahrzeuge.end(); it++) {
 		try {
-			(*iterator)->vAbfertigung();
+			(*it)->vAbfertigung();
 		} catch (FahrAusnahme &ausnahme) {
 			ausnahme.vBearbeiten();
 		}
 	}
 
 	p_dZeit = dGlobaleZeit;
-
 }
 
 void Weg::vAnnahme(Fahrzeug *pFz, double dStartZeit) {
@@ -41,11 +41,21 @@ void Weg::vAnnahme(Fahrzeug *pFz, double dStartZeit) {
 	p_pFahrzeuge.push_back(pFz);
 }
 
+void Weg::vAbgabe(Fahrzeug *pFz) {
+	list<Fahrzeug *>::iterator result;
+
+	result = find(p_pFahrzeuge.begin(), p_pFahrzeuge.end(), pFz);
+
+	if (result != p_pFahrzeuge.end()) {
+		p_pFahrzeuge.erase(result);
+	}
+}
+
 double Weg::getLaenge() const {
 	return p_dLaenge;
 }
 
-Begrenzung Weg::getLimit() const {
+Weg::Begrenzung Weg::getLimit() const {
 	return p_eLimit;
 }
 
@@ -54,9 +64,9 @@ ostream& Weg::ostreamAusgabe(ostream &stream) const {
 			<< resetiosflags(ios::left) << setiosflags(ios::right)
 			<< setw(24) << p_dLaenge << " ( ";
 
-	list<Fahrzeug *>::const_iterator iterator;
-	for (iterator = p_pFahrzeuge.begin(); iterator != p_pFahrzeuge.end(); ++iterator) {
-		stream << (*iterator)->getName() << " ";
+	list<Fahrzeug *>::const_iterator it;
+	for (it = p_pFahrzeuge.begin(); it != p_pFahrzeuge.end(); it++) {
+		stream << (*it)->getName() << " ";
 	}
 
 	stream << ")";

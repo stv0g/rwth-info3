@@ -10,20 +10,22 @@ using namespace std;
 
 class Fahrzeug; /* Forward Deklaration */
 
-typedef enum {
-	Innerorts,		/* 50 km/h */
-	Landstrasse,	/* 100 km/h */
-	Autobahn		/* unbegrenzt */
-} Begrenzung;
-
 class Weg : public AktivesVO {
 public:
+	typedef enum {
+		Innerorts,		/* 50 km/h */
+		Landstrasse,	/* 100 km/h */
+		Autobahn		/* unbegrenzt */
+	} Begrenzung;
+
 	Weg();
 	Weg(string sName, double dLaenge, Begrenzung eLimit = Autobahn);
 	virtual ~Weg();
 
 	void vAbfertigung();
 	void vAnnahme(Fahrzeug *pFz, double dStartZeit = 0);
+	void vAbgabe(Fahrzeug *pFz);
+
 	double getLaenge() const;
 	Begrenzung getLimit() const;
 

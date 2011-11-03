@@ -1,92 +1,97 @@
-/*** LAZYLISTE.H ***/
-
-#ifndef __LazyListe_h
-#define __LazyListe_h
+#ifndef LAZYLISTE_H_
+#define LAZYLISTE_H_
 
 #include <list>
+
 #include "LazyAktion.h"
 
-template <class T>
-class LazyListe
-{
-   public:
-      // typedef fuer iterator
-      typedef typename list<T>::iterator iterator;
-      typedef typename list<T>::const_iterator const_iterator; 
+using namespace std;
 
-      // Konstruktor / Destruktor
-      LazyListe() { bChanged = false; }
-      virtual ~LazyListe()
-      {
-         if (bChanged)
-         {
-            // ggf. noch anstehende Aktionen löschen
-            do
-            {
-               delete *(p_ListeAktionen.begin());
-               p_ListeAktionen.pop_front();
-            }
-            while (p_ListeAktionen.size() > 0);
-         }
-      }
+template<class T> class LazyListe {
 
-      // Lesefunktionen
-      const_iterator begin() const {return p_ListeObjekte.begin();}
-      const_iterator end() const {...}
-      iterator begin() {return p_ListeObjekte.begin();}
-      iterator end() {...}
-      bool empty() const {...}
+public:
+	// typedef fÃ¼r Iterator
+	typedef typename list<T>::iterator iterator;
+	typedef typename list<T>::const_iterator const_iterator;
 
-      // Schreibfunktionen
-      void push_back( const T einObjekt )
-      {
-      p_ListeAktionen.push_back(new LazyPushBack<T>(...));
-      bChanged = true;
-      return;
-      }
+	// Konstruktor / Destruktor
+	LazyListe() {
+		bChanged = false;
+	}
 
-      void push_front( const T einObjekt )
-      {
-      ...
+	virtual ~LazyListe() {
+		if (bChanged) {
+			// ggf. noch anstehende Aktionen lÃ¶schen
+			do {
+				delete *(p_ListeAktionen.begin());
+				p_ListeAktionen.pop_front();
+			} while (p_ListeAktionen.size() > 0);
+		}
+	}
 
-      bChanged = true;
-      return;
-      }
+	// Lesefunktionen
+	const_iterator begin() const {
+		return p_ListeObjekte.begin();
+	}
+	const_iterator end() const {
+		return p_ListeObjekte.end();
+	}
 
-      void erase( iterator itObjekt )
-      {
-      ...
+	iterator begin() {
+		return p_ListeObjekte.begin();
+	}
 
-      bChanged = true;
-      return;
-      }
+	iterator end() {
+		return p_ListeObjekte.end();
+	}
 
-      // Änderungen auf Objektliste übertragen
-      void vAktualisieren()
-      {
-         list <LazyAktion<T>*>::const_iterator itL;
+	bool empty() const {
+		return p_ListeObjekte.empty();
+	}
 
-         if ( bChanged )
-         {
-	         // ausstehende Aktionen durchfuehren
-	         for (itL=... )
-	         {
-	         // Aktion ausführen
-		         ...
-            // Zeiger auf Action-Element löschen
-               ...
-	         }
-	         // Liste der Aktionen leeren
-            p_ListeAktionen.clear();
+	// Schreibfunktionen
+	void push_back(const T einObjekt) {
+		p_ListeAktionen.push_back(new LazyPushBack<T>(einObjekt, &p_ListeObjekte));
+		bChanged = true;
+	}
 
-	         bChanged = false;
-         }
-      }
+	void push_front(const T einObjekt) {
+		p_ListeAktionen.push_back(new LazyPushFront<T>(einObjekt, &p_ListeObjekte));
+		bChanged = true;
+	}
 
-   private:
-      list<T>					p_ListeObjekte;
-      list<LazyAktion<T>*>	p_ListeAktionen;
-      bool						bChanged;
+	void erase(iterator itObjekt) {
+		p_ListeAktionen.push_back(new LazyErase<T>(itObjekt, &p_ListeObjekte));
+		bChanged = true;
+	}
+
+	// Ã„nderungen auf Objektliste Ã¼bertragen
+	void vAktualisieren() {
+		if (bChanged) {
+			// ausstehende Aktionen durchfuehren
+			typename list<LazyAktion<T> *>::const_iterator it; // TODO warum typename?!
+			for (it = p_ListeAktionen.begin(); it != p_ListeAktionen.end(); it++) {
+				cout << "fÃ¼hre aktion aus, noch " << p_ListeAktionen.size() << endl;
+				// Aktion ausfÃ¼hren
+				//LazyAktion<T> *pAktion = *it;
+				//pAktion->vAusfuehren();
+
+				(*it)->vAusfuehren();
+
+				// Zeiger auf Action-Element lÃ¶schen
+				delete *it;
+			}
+			// Liste der Aktionen leeren
+			p_ListeAktionen.clear();
+
+			bChanged = false;
+		}
+	}
+
+private:
+	list<T> p_ListeObjekte;
+	list<LazyAktion<T> *> p_ListeAktionen;
+	bool bChanged;
 };
 
-#endif
+#endif /* LAZYLISTE_H_ */

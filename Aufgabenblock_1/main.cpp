@@ -123,7 +123,7 @@ void vAufgabe2() {
 			(*it)->vAusgabe();
 		}
 
-        cout << endl << "Globale Zeit: " << dGlobaleZeit;
+		cout << endl << "Globale Zeit: " << dGlobaleZeit;
 	}
 }
 
@@ -134,8 +134,8 @@ void vAufgabe3() {
 
 	dGlobaleZeit += 1.0;
 	velo.vAbfertigung();
-    vw.vAbfertigung();
-    boat.vAbfertigung();
+	vw.vAbfertigung();
+	boat.vAbfertigung();
 
 	Fahrzeug::vAusgabeHeader();
 	cout << vw << endl << velo << endl << boat << endl << endl;
@@ -146,7 +146,7 @@ void vAufgabe3() {
 	else {
 		cout << "Der Golf ist bereits weiter gefahren" << endl;
 	}
-    cout << endl;
+	cout << endl;
 
 	Fahrrad veloKopie = velo;	/* benutze Kopier Konstrukutor */
 	Fahrrad veloKopie2;
@@ -163,16 +163,16 @@ typedef void (*aufgabe_t)(void);
 int main() {
 	int iWahl;
 
-    aufgabe_t pAufgaben[] = {
-        &vAufgabe1_deb,
-        &vAufgabe1,
-        &vAufgabe2,
-        &vAufgabe3
-    };
+	aufgabe_t pAufgaben[] = {
+			&vAufgabe1_deb,
+			&vAufgabe1,
+			&vAufgabe2,
+			&vAufgabe3
+	};
 
 	retry:
 
-    cout << "0: vAufgabe1_deb()" << endl;
+	cout << "0: vAufgabe1_deb()" << endl;
 	cout << "1: vAufgabe1()" << endl;
 	cout << "2: vAufgabe2()" << endl;
 	cout << "3: vAufgabe3()" << endl;
@@ -180,20 +180,20 @@ int main() {
 	cin >> iWahl;
 	cout << endl;
 
-    if (iWahl > NUM_AUFGABEN || iWahl < 0) {
-        cerr << "Ungültige Eingabe! Bitte versuchen Sie es erneut" << endl;
-        goto retry;
-    }
+	if (iWahl > NUM_AUFGABEN || iWahl < 0) {
+		cerr << "Ungültige Eingabe! Bitte versuchen Sie es erneut" << endl;
+		goto retry;
+	}
  
 	pAufgaben[iWahl](); /* Funktionspointer aufrufen */
 	
 	cout << endl << endl << "Nochmal? (0/1): ";
-    cin >> iWahl;
-    cout << endl;
+	cin >> iWahl;
+	cout << endl;
 
-    if (iWahl) {
-        goto retry;
-    }
+	if (iWahl) {
+		goto retry;
+	}
 
 	return 0;
 }

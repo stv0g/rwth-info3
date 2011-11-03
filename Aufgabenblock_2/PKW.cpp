@@ -2,6 +2,7 @@
 #include <iomanip>
 
 #include "PKW.h"
+#include "SimuClient.h"
 
 using namespace std;
 
@@ -46,6 +47,10 @@ double PKW::dTanken(double dMenge) {
 	}
 
 	return p_dTankinhalt - dAlterInhalt;
+}
+
+void PKW::vZeichnen(Weg *pWeg) const {
+	bZeichnePKW(getName(), pWeg->getName(), getAbschnittStrecke() / pWeg->getLaenge(), dGeschwindigkeit(), getTankinhalt());
 }
 
 void PKW::vAbfertigung() {

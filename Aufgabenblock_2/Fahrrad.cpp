@@ -25,4 +25,3 @@ double Fahrrad::dGeschwindigkeit() const {
 
 	return dGeschwindigkeit;
 }
-

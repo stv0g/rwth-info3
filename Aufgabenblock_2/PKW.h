@@ -25,6 +25,7 @@ public:
 	ostream& ostreamAusgabe(ostream &stream) const;
 	double dVerbrauch() const;
 	double dTanken(double dMenge = 0.0);
+	void vZeichnen(Weg *pWeg) const;
 	double getTankinhalt() const;
 
 private:

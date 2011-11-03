@@ -1,12 +1,14 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <stdlib.h>
 
 #include "SimuClient.h"
 #include "Fahrzeug.h"
 #include "Fahrrad.h"
 #include "PKW.h"
 #include "Weg.h"
+#include "LazyListe.h"
 
 using namespace std;
 
@@ -152,7 +154,7 @@ void vAufgabe3() {
 }
 
 void vAufgabe4() {
-	Weg weg("Allee", 150.0, Landstrasse);
+	Weg weg("Allee", 150.0, Weg::Landstrasse);
 	PKW vw("Golf", 110, 6.7, 88);
 	Fahrrad velo("Haibike", 22);
 
@@ -168,8 +170,8 @@ void vAufgabe4() {
 }
 
 void vAufgabe5() {
-	Weg hin("Hinweg", 500.0, Landstrasse);
-	Weg rueck("Rueckweg", 500.0, Landstrasse);
+	Weg hin("Hinweg", 500.0, Weg::Landstrasse);
+	Weg rueck("Rueckweg", 500.0, Weg::Landstrasse);
 
 	PKW vw("Golf", 110, 6.7, 88);
 	Fahrrad velo("Haibike", 22);
@@ -192,8 +194,9 @@ void vAufgabe5() {
 		rueck.vAbfertigung();
 
 		vSetzeZeit(dGlobaleZeit);
-		bZeichnePKW(vw.getName(), hin.getName(), vw.getAbschnittStrecke() / hin.getLaenge(), vw.dGeschwindigkeit(), vw.getTankinhalt());
-		bZeichneFahrrad(velo.getName(), rueck.getName(), velo.getAbschnittStrecke() / hin.getLaenge(), velo.dGeschwindigkeit());
+
+		vw.vZeichnen(&hin);
+		velo.vZeichnen(&rueck);
 
 		cout << vw << endl << velo << endl << hin << endl << rueck << endl;
 
@@ -203,33 +206,119 @@ void vAufgabe5() {
 	vBeendeGrafik();
 }
 
+void vAufgabe6() {
+	Weg weg("Allee", 300.0, Weg::Landstrasse);
+	PKW vw("Golf", 110, 6.7, 88);
+
+	weg.vAnnahme(&vw);
+
+	Fahrzeug::vAusgabeHeader();
+	while (dGlobaleZeit < 10) {
+		dGlobaleZeit += 0.5;
+		weg.vAbfertigung();
+		cout << vw << endl << weg << endl;
+	}
+}
+
+void vListeAusgeben(LazyListe<int> tListe) {
+		LazyListe<int>::iterator it;
+		for (it = tListe.begin(); it != tListe.end(); it++) {
+			cout << *it << ", ";
+		}
+		cout << endl;
+}
+
+void vAufgabe6a() {
+	LazyListe<int> tListe;
+	LazyListe<int>::iterator it;
+
+	/* PRNG mit konstantem seed initialisieren */
+	srand(55);
+
+	/* Mit Zufallszahlen füllen */
+	cout << "Fülle mit Zufallszahlen" << endl;
+	for (int i = 0; i < 10; i++) {
+		tListe.push_back(rand() % 10 + 1);
+	}
+
+	cout << "Führe LazyAktionen aus" << endl;
+	tListe.vAktualisieren();
+
+	cout << "Gebe Liste aus: ";
+	vListeAusgeben(tListe);
+
+	cout << "Lösche Werte > 5..." << endl;
+	for (it = tListe.begin(); it != tListe.end(); it++) {
+		if (*it > 5) {
+			tListe.erase(it);
+		}
+	}
+
+	cout << "Gebe Liste aus: ";
+	vListeAusgeben(tListe);
+
+	cout << "Führe LazyAktionen aus" << endl;
+	tListe.vAktualisieren();
+
+	cout << "Gebe Liste aus: ";
+	vListeAusgeben(tListe);
+
+	cout << "Weitere Änderungen..." << endl;
+	tListe.push_front(44);
+	tListe.push_back(33);
+
+	cout << "Führe LazyAktionen aus" << endl;
+	tListe.vAktualisieren();
+
+	cout << "Gebe Liste aus: ";
+	vListeAusgeben(tListe);
+}
+
+typedef void (*aufgabe_t)(void);
+#define NUM_AUFGABEN 7
+
 int main() {
 	int iWahl;
 
+	aufgabe_t pAufgaben[] = {
+			&vAufgabe1_deb,
+			&vAufgabe1,
+			&vAufgabe2,
+			&vAufgabe3,
+			&vAufgabe4,
+			&vAufgabe5,
+			&vAufgabe6,
+			&vAufgabe6a
+	};
+
 	retry:
 
-	cout << "1: vAufgabe1()" << endl;
 	cout << "0: vAufgabe1_deb()" << endl;
+	cout << "1: vAufgabe1()" << endl;
 	cout << "2: vAufgabe2()" << endl;
 	cout << "3: vAufgabe3()" << endl;
 	cout << "4: vAufgabe4()" << endl;
 	cout << "5: vAufgabe5()" << endl;
+	cout << "6: vAufgabe6()" << endl;
+	cout << "7: vAufgabe6a()" << endl;
 	cout << "Bitte wähen Sie eine Aufgabe: ";
 	cin >> iWahl;
 	cout << endl;
 
-	switch (iWahl) {
-		case 1: vAufgabe1(); break;
-		case 0: vAufgabe1_deb(); break;
-		case 2: vAufgabe2(); break;
-		case 3: vAufgabe3(); break;
-		case 4: vAufgabe4(); break;
-		case 5: vAufgabe5(); break;
-		default:
-			cerr << "Ungültige Eingabe! Bitte versuchen Sie es erneut" << endl;
-			goto retry;
+	if (iWahl > NUM_AUFGABEN || iWahl < 0) {
+		cerr << "Ungültige Eingabe! Bitte versuchen Sie es erneut" << endl;
+		goto retry;
 	}
 
+	pAufgaben[iWahl](); /* Funktionspointer aufrufen */
+
+	cout << endl << endl << "Nochmal? (0/1): ";
+	cin >> iWahl;
 	cout << endl;
+
+	if (iWahl) {
+		goto retry;
+	}
+
 	return 0;
 }

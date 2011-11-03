@@ -6,7 +6,7 @@
 #include "Weg.h"
 #include "FzgFahren.h"
 #include "FzgParken.h"
-#include "AktivesVO.h"
+#include "SimuClient.h"
 
 extern double dGlobaleZeit;
 
@@ -28,8 +28,7 @@ Fahrzeug::Fahrzeug(string sName, double dMaxGeschwindkeit) :
 }
 
 /* Kopierkonstruktor */
-Fahrzeug::Fahrzeug(Fahrzeug &fz) :
-	AktivesVO(fz) {
+Fahrzeug::Fahrzeug(Fahrzeug &fz) : AktivesVO(fz) {
 	vInitialisierung();
 	p_dMaxGeschwindigkeit = fz.p_dMaxGeschwindigkeit;
 }
@@ -105,4 +104,8 @@ double Fahrzeug::getAbschnittStrecke() const {
 
 bool Fahrzeug::operator<(Fahrzeug &fz) const {
 	return (this->p_dGesamtStrecke < fz.p_dGesamtStrecke);
+}
+
+void Fahrzeug::vZeichnen(Weg *pWeg) const {
+	bZeichneFahrrad(getName(), pWeg->getName(), getAbschnittStrecke() / pWeg->getLaenge(), dGeschwindigkeit());
 }
