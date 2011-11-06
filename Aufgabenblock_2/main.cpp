@@ -3,6 +3,8 @@
 #include <iostream>
 #include <stdlib.h>
 
+#include <windows.h>
+
 #include "SimuClient.h"
 #include "Fahrzeug.h"
 #include "Fahrrad.h"
@@ -12,7 +14,7 @@
 
 using namespace std;
 
-double dGlobaleZeit = 0.0;
+double dGlobaleZeit;
 
 void vAufgabe1() {
 	/* 3. Initialisieren */
@@ -155,14 +157,14 @@ void vAufgabe3() {
 
 void vAufgabe4() {
 	Weg weg("Allee", 150.0, Weg::Landstrasse);
-	PKW vw("Golf", 110, 6.7, 88);
+	PKW vw("Golf", 55, 6.7, 88);
 	Fahrrad velo("Haibike", 22);
 
-	weg.vAnnahme(&vw);
-	weg.vAnnahme(&velo, 1.1);
+    weg.vAnnahme(&vw, 1.2);
+    weg.vAnnahme(&velo);
 
 	Fahrzeug::vAusgabeHeader();
-	while (dGlobaleZeit < 10) {
+	while (dGlobaleZeit < 3) {
 		dGlobaleZeit += 0.1;
 		weg.vAbfertigung();
 		cout << vw << endl << velo << endl << weg << endl;
@@ -173,10 +175,10 @@ void vAufgabe5() {
 	Weg hin("Hinweg", 500.0, Weg::Landstrasse);
 	Weg rueck("Rueckweg", 500.0, Weg::Landstrasse);
 
-	PKW vw("Golf", 110, 6.7, 88);
+	PKW vw("Golf", 55, 10, 20);
 	Fahrrad velo("Haibike", 22);
 
-	bool bStarted = bInitialisiereGrafik(800, 600, true);
+	bool bStarted = bInitialisiereGrafik(800, 600);
 	if (!bStarted) {
 		cerr << "Konnte Simulationsserver nicht starten!" << endl;
 	}
@@ -184,11 +186,11 @@ void vAufgabe5() {
 	int iKoordinaten[] = {100, 100, 700, 500 };
 	bZeichneStrasse(hin.getName(), rueck.getName(), hin.getLaenge(), 2, iKoordinaten);
 
-	hin.vAnnahme(&vw);
-	rueck.vAnnahme(&velo);
+    hin.vAnnahme(&vw, 1.2);
+    rueck.vAnnahme(&velo);
 
 	Fahrzeug::vAusgabeHeader();
-	while (dGlobaleZeit < 10) {
+	while (dGlobaleZeit < 15) {
 		dGlobaleZeit += 0.3;
 		hin.vAbfertigung();
 		rueck.vAbfertigung();
@@ -208,7 +210,7 @@ void vAufgabe5() {
 
 void vAufgabe6() {
 	Weg weg("Allee", 300.0, Weg::Landstrasse);
-	PKW vw("Golf", 110, 6.7, 88);
+	PKW vw("Golf", 55, 6.7, 88);
 
 	weg.vAnnahme(&vw);
 
@@ -220,7 +222,7 @@ void vAufgabe6() {
 	}
 }
 
-void vListeAusgeben(LazyListe<int> tListe) {
+void vListeAusgeben(LazyListe<int> &tListe) {
 		LazyListe<int>::iterator it;
 		for (it = tListe.begin(); it != tListe.end(); it++) {
 			cout << *it << ", ";
@@ -310,6 +312,7 @@ int main() {
 		goto retry;
 	}
 
+    dGlobaleZeit = 0; /* resette globale Uhr */
 	pAufgaben[iWahl](); /* Funktionspointer aufrufen */
 
 	cout << endl << endl << "Nochmal? (0/1): ";

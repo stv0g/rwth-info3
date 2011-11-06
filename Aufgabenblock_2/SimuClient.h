@@ -1,74 +1,40 @@
-/* 
- * SimuClient für MacOS/Linux (Praktikum Informatik 2, WS 2009/10 RWTH Aachen)
- * Version 0.5
- * von Robert Uhl, 2009 - 2010
- * Vielen Dank an den Lehrstuhl EECS, RWTH Aachen, für den Zugang zum Quellcode
- * des SimuClient für Windows.
- * Datei: SimuClient.h
- * Inhalt: SimuClient sendet Daten an den (erweiterten) Java-Grafik-Server
- */
-
-#ifndef SIMUCLIENT_H
-#define SIMUCLIENT_H
-
+#pragma once
+#pragma warning (disable:4786)
 #include <string>
 using namespace std;
 
-/**
- * Grafik-Server initialisieren
- * Standard: bStarteServer = true, sServer = "localhost", iPort = 7654
- */
-bool bInitialisiereGrafik(int sizeX, int sizeY, bool bStarteServer = true, const string& sServer = "localhost", const unsigned short iPort = 7654);
+// Folgender ifdef-Block ist die Standardmethode zum Erstellen von Makros, die das Exportieren
+// aus einer DLL vereinfachen. Alle Dateien in dieser DLL werden mit dem SIMUCLIENT_EXPORTS-Symbol
+// kompiliert, das in der Befehlszeile definiert wurde. Das Symbol darf nicht f�r ein Projekt definiert werden,
+// das diese DLL verwendet. Alle anderen Projekte, deren Quelldateien diese Datei beinhalten, erkennen
+// SIMUCLIENT_API-Funktionen als aus einer DLL importiert, w�hrend die DLL
+// mit diesem Makro definierte Symbole als exportiert ansieht.
+#ifdef SIMUCLIENT_EXPORTS
+#define SIMUCLIENT_API __declspec(dllexport)
+#else
+#define SIMUCLIENT_API __declspec(dllimport)
+#endif
 
-/**
- * Zeichnet eine Kreuzung
- */
-bool bZeichneKreuzung(int posX, int posY);
+// NUTZBARE FUNKTIONEN (offizielle Schnittstelle)
+SIMUCLIENT_API bool bInitialisiereGrafik(int sizeX, int sizeY, char* address = "127.0.0.1");
+SIMUCLIENT_API bool bZeichneKreuzung(int posX, int posY);
+SIMUCLIENT_API bool bZeichneStrasse(const string& way_to_name, const string& way_back_name, int length, int numPoints, int* points_xy);
+SIMUCLIENT_API bool bZeichnePKW(const string& carname, const string& streetname, double rel_position, double speed, double tank);
+SIMUCLIENT_API bool bZeichneFahrrad(const string& bikename, const string& streetname, double relposition, double speed);
+SIMUCLIENT_API void vBeendeGrafik();
+SIMUCLIENT_API void vSetzeZeit(const double dTime);
 
-/**
- * Straße zeichnen
- */
-bool bZeichneStrasse(const string& way_to_name, const string& way_back_name, int length, int numPoints, int* points_xy);
+// Zus�tzliche Schnittstellen (wegen Konvertierungsproblemen bei string/char*)
 
-/**
- * PKW zeichnen
- */
-bool bZeichnePKW(const string& carname, const string& streetname, double rel_position, double speed, double tank);
+SIMUCLIENT_API bool bZeichneStrasse(const char* way_to_name, const char* way_back_name, int length, int numPoints, int* points_xy);
+SIMUCLIENT_API bool bZeichneStrasse(const string& way_to_name, const char* way_back_name, int length, int numPoints, int* points_xy);
+SIMUCLIENT_API bool bZeichneStrasse(const char* way_to_name, const string& way_back_name, int length, int numPoints, int* points_xy);
+SIMUCLIENT_API bool bZeichnePKW(const string& carname, const char* streetname, double rel_position, double speed, double tank);
+SIMUCLIENT_API bool bZeichneFahrrad(const string& bikename, const char* streetname, double rel_position, double speed);
+SIMUCLIENT_API bool bZeichnePKW(const char*  carname, const char* streetname, double rel_position, double speed, double tank);
+SIMUCLIENT_API bool bZeichneFahrrad(const char*  bikename, const char* streetname, double rel_position, double speed);
+SIMUCLIENT_API bool bZeichnePKW(const char*  carname, const string& streetname, double rel_position, double speed, double tank);
+SIMUCLIENT_API bool bZeichneFahrrad(const char*  bikename, const string& streetname, double rel_position, double speed);
 
-/**
- * Zeichne Fahrrad
- */
-bool bZeichneFahrrad(const string& bikename, const string& streetname, double relposition, double speed);
-
-/**
- * Sendet die aktuelle Simulationszeit an den erweiterten SimuServer
- */
-void vSetzeZeit(const double dTime);
-
-/**
- * Ersetzt die Sleep()-Funktion von Windows, die mSek übernimmt
- */
-void Sleep(const int mSec);
-
-/**
- * Grafikserver beenden
- */
-void vBeendeGrafik(void);
-
-/*
- * Zusätzliche Schnittstellen wegen eventueller Konvertierungsprobleme bei string/char*
- */
-
-bool bZeichneStrasse(const char* way_to_name, const char* way_back_name, int length, int numPoints, int* points_xy);
-bool bZeichneStrasse(const string& way_to_name, const char* way_back_name, int length, int numPoints, int* points_xy);
-bool bZeichneStrasse(const char* way_to_name, const string& way_back_name, int length, int numPoints, int* points_xy);
-
-bool bZeichnePKW(const char* carname, const char* streetname, double rel_position, double speed, double tank);
-bool bZeichnePKW(const string& carname, const char* streetname, double rel_position, double speed, double tank);
-bool bZeichnePKW(const char* carname, const string& streetname, double rel_position, double speed, double tank);
-
-bool bZeichneFahrrad(const char* bikename, const char* streetname, double rel_position, double speed);
-bool bZeichneFahrrad(const string& bikename, const char* streetname, double rel_position, double speed);
-bool bZeichneFahrrad(const char* bikename, const string& streetname, double rel_position, double speed);
-
-#endif	// SIMUCLIENT_H
+// Wrapperfunktion fuer Sleep
+SIMUCLIENT_API void vSleep(int mSec);

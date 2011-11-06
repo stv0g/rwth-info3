@@ -71,12 +71,9 @@ public:
 			// ausstehende Aktionen durchfuehren
 			typename list<LazyAktion<T> *>::const_iterator it; // TODO warum typename?!
 			for (it = p_ListeAktionen.begin(); it != p_ListeAktionen.end(); it++) {
-				cout << "führe aktion aus, noch " << p_ListeAktionen.size() << endl;
 				// Aktion ausführen
-				//LazyAktion<T> *pAktion = *it;
-				//pAktion->vAusfuehren();
-
-				(*it)->vAusfuehren();
+				LazyAktion<T> *pAktion = *it;
+				pAktion->vAusfuehren();
 
 				// Zeiger auf Action-Element löschen
 				delete *it;

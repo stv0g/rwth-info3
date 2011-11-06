@@ -14,7 +14,7 @@ FzgParken::~FzgParken()
 { }
 
 double FzgParken::dStrecke(Fahrzeug *pFz, double dDelta) {
-	if (p_dStartZeit > dGlobaleZeit) {
+	if (p_dStartZeit >= dGlobaleZeit - 1e-5) {
 		return 0.0;
 	}
 	else {

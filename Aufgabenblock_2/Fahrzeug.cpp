@@ -88,7 +88,8 @@ void Fahrzeug::vNeueStrecke(Weg *pWeg, double dStartZeit) {
 	if (p_pVerhalten != NULL) { /* alter Weg vorhanden? */
 		delete p_pVerhalten; /* Speicherleck vermeiden! */
 	}
-	else if (dStartZeit > 0) {
+	
+    if (dStartZeit > 0) {
 		p_pVerhalten = new FzgParken(pWeg, dStartZeit);
 	}
 	else {

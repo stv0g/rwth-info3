@@ -5,6 +5,7 @@
 #include <string>
 
 #include "AktivesVO.h"
+#include "LazyListe.h"
 
 using namespace std;
 
@@ -34,7 +35,7 @@ public:
 private:
 	double p_dLaenge;
 	Begrenzung p_eLimit;
-	list<Fahrzeug *> p_pFahrzeuge;
+	LazyListe<Fahrzeug *> p_pFahrzeuge;
 };
 
 #endif /* WEG_H_ */

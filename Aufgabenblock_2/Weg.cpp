@@ -25,20 +25,28 @@ Weg::~Weg()
 void Weg::vAbfertigung() {
 	list<Fahrzeug *>::iterator it;
 
+    p_pFahrzeuge.vAktualisieren();
 	for (it = p_pFahrzeuge.begin(); it != p_pFahrzeuge.end(); it++) {
-		try {
+        try {
 			(*it)->vAbfertigung();
 		} catch (FahrAusnahme &ausnahme) {
 			ausnahme.vBearbeiten();
 		}
 	}
 
+    p_pFahrzeuge.vAktualisieren();
 	p_dZeit = dGlobaleZeit;
 }
 
 void Weg::vAnnahme(Fahrzeug *pFz, double dStartZeit) {
 	pFz->vNeueStrecke(this, dStartZeit);
-	p_pFahrzeuge.push_back(pFz);
+	
+    if (dStartZeit > 0) { /* parkende Fahrzeuge werden vorne eingefügt */
+        p_pFahrzeuge.push_front(pFz);
+    }
+    else { /* fahrende hinten */
+        p_pFahrzeuge.push_back(pFz);
+    }
 }
 
 void Weg::vAbgabe(Fahrzeug *pFz) {
@@ -46,7 +54,7 @@ void Weg::vAbgabe(Fahrzeug *pFz) {
 
 	result = find(p_pFahrzeuge.begin(), p_pFahrzeuge.end(), pFz);
 
-	if (result != p_pFahrzeuge.end()) {
+	if (result != p_pFahrzeuge.end()) { /* gefunden */
 		p_pFahrzeuge.erase(result);
 	}
 }

@@ -33,7 +33,7 @@ public:
 	}
 
 private:
-	using LazyAktion<T>::p_ptLazyListe;
+	//using LazyAktion<T>::p_ptLazyListe;
 	T p_tObjekt;
 };
 
@@ -53,7 +53,7 @@ public:
 	}
 
 private:
-	using LazyAktion<T>::p_ptLazyListe; // für gcc notwendig
+	//using LazyAktion<T>::p_ptLazyListe; // für gcc notwendig
 	T p_tObjekt;
 };
 
@@ -66,9 +66,7 @@ public:
 	LazyErase(const iterator &itObjekt, list<T> *eineListe) :
 			LazyAktion<T> (eineListe),
 			p_itObjekt(itObjekt)
-	{
-		cout << "reihe " << *itObjekt << " zur löschung ein" << endl;
-	}
+	{ }
 
 	virtual ~LazyErase() { }
 
@@ -77,7 +75,7 @@ public:
 	}
 
 private:
-	using LazyAktion<T>::p_ptLazyListe; // für gcc notwendig
+	//using LazyAktion<T>::p_ptLazyListe; // für gcc notwendig
 	iterator p_itObjekt; // bei erase Iterator speichern
 };
 
