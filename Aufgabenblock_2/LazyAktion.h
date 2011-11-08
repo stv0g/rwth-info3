@@ -33,7 +33,7 @@ public:
 	}
 
 private:
-	//using LazyAktion<T>::p_ptLazyListe;
+	using LazyAktion<T>::p_ptLazyListe; /* für gcc notwendig */
 	T p_tObjekt;
 };
 
@@ -53,7 +53,7 @@ public:
 	}
 
 private:
-	//using LazyAktion<T>::p_ptLazyListe; // für gcc notwendig
+	using LazyAktion<T>::p_ptLazyListe; /* für gcc notwendig */
 	T p_tObjekt;
 };
 
@@ -75,7 +75,7 @@ public:
 	}
 
 private:
-	//using LazyAktion<T>::p_ptLazyListe; // für gcc notwendig
+	using LazyAktion<T>::p_ptLazyListe; /* für gcc notwendig */
 	iterator p_itObjekt; // bei erase Iterator speichern
 };
 
