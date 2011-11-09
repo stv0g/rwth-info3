@@ -108,10 +108,10 @@ Kreuzung * Weg::getZielKreuzung() {
 
 double Weg::getMaxGeschwindigkeit() const {
 	switch (p_eLimit) {
-		case Weg::Innerorts:		return 50;
+		case Weg::Innerorts:	return 50;
 		case Weg::Landstrasse:	return 100;
 		case Weg::Autobahn:		return DBL_MAX; /* unbegrenzt */
-		default:			return 0;
+		default:				throw string("ungültige Begrenzung!");
 	}
 }
 
@@ -121,7 +121,7 @@ ostream& Weg::ostreamAusgabe(ostream &stream) const {
 
 	AktivesVO::ostreamAusgabe(stream) << setprecision(2)
 			<< resetiosflags(ios::left) << setiosflags(ios::right)
-			<< setw(8);
+			<< setw(10);
 
 	if (dMaxGeschwindigkeit == DBL_MAX) {
 		stream << "(inf)";
@@ -130,7 +130,7 @@ ostream& Weg::ostreamAusgabe(ostream &stream) const {
 		stream << dMaxGeschwindigkeit;
 	}
 
-	stream << setw(16) << p_dLaenge << " ( ";
+	stream << setw(9) << p_dLaenge << " ( ";
 
 	LazyListe<Fahrzeug *>::const_iterator it;
 	for (it = p_lFahrzeuge.begin(); it != p_lFahrzeuge.end(); it++) {

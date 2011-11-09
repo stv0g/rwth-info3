@@ -36,7 +36,8 @@ void Kreuzung::vTanken(Fahrzeug *pFz) {
 	if (p_dTankstelle > 0) {
 		p_dTankstelle -= pFz->dTanken(); /* immmer volltanken */
 	}
-	else {
+
+	if (p_dTankstelle < 0) {
 		p_dTankstelle = 0;
 	}
 }
@@ -79,7 +80,7 @@ void Kreuzung::vZeichnen(Koordinaten iKoordinaten) const {
 ostream& Kreuzung::ostreamAusgabe(ostream &stream) const {
 	AktivesVO::ostreamAusgabe(stream) << setprecision(2)
 		<< resetiosflags(ios::left) << setiosflags(ios::right)
-		<< setw(8) << p_dTankstelle << "                 ( ";
+		<< setw(10) << p_dTankstelle << "          ( ";
 
 	list<Weg *>::const_iterator it;
 	for (it = p_lWege.begin(); it != p_lWege.end(); it++) {

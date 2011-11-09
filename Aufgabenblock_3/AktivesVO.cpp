@@ -55,8 +55,8 @@ void AktivesVO::vInitialisierung() {
 }
 
 void AktivesVO::vAusgabeHeader() {
-	cout << "ID Zeit Name   :     Kmh   GesamtStrecke   Verbrauch   Tankinhalt" << endl;
-	cout << "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+	cout << "ID Zeit  Name     :       Kmh  Strecke  Abschnitt  Verbrauch  Tankinhalt" << endl;
+	cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 			<< endl;
 }
 
@@ -64,8 +64,8 @@ ostream& AktivesVO::ostreamAusgabe(ostream &stream) const {
 	stream << setprecision(1) << setiosflags(ios::fixed)
 		<< resetiosflags(ios::right) << setiosflags(ios::left)
 		<< setw(3) << p_iID
-		<< setw(5) << p_dZeit
-		<< setw(7) << p_sName << ":";
+		<< setw(6) << p_dZeit
+		<< setw(9) << p_sName << ":";
 
 	return stream;
 }

@@ -48,9 +48,9 @@ void Fahrzeug::vInitialisierung() {
 ostream& Fahrzeug::ostreamAusgabe(ostream &stream) const {
 	AktivesVO::ostreamAusgabe(stream) << setprecision(2)
 			<< resetiosflags(ios::left) << setiosflags(ios::right)
-			<< setw(8) << dGeschwindigkeit()
-			<< setw(7) << p_dGesamtStrecke << " ("
-			<< setw(6) << p_dAbschnittStrecke << ")";
+			<< setw(10) << dGeschwindigkeit()
+			<< setw(9) << p_dGesamtStrecke
+			<< setw(11) << p_dAbschnittStrecke;
 
 	return stream;
 }

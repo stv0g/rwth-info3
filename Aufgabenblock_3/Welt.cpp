@@ -67,13 +67,8 @@ void Welt::vEinlesen(istream &in) {
 				>> bUeberholverbot;
 
 			/* Kreuzungen suchen */
-			Kreuzung *pQuellKreuzung = static_cast<Kreuzung *>(AktivesVO::pObjekt(sQuellKreuzung));
-			Kreuzung *pZielKreuzung = static_cast<Kreuzung *>(AktivesVO::pObjekt(sZielKreuzung));
-
-			eLimit--;
-			if (eLimit > 2 || eLimit < 0) {
-				throw string("Ungültige Geschwindikeitsbegrenzung (0-2)");
-			}
+			Kreuzung *pQuellKreuzung = dynamic_cast<Kreuzung *>(AktivesVO::pObjekt(sQuellKreuzung));
+			Kreuzung *pZielKreuzung = dynamic_cast<Kreuzung *>(AktivesVO::pObjekt(sZielKreuzung));
 
 			/* Kreuzungen verbinden & Wege erstellen */
 			pQuellKreuzung->vVerbinde(pZielKreuzung, sHinweg, sRueckweg, dLaenge, static_cast<Weg::Begrenzung >(eLimit), bUeberholverbot);
@@ -87,7 +82,7 @@ void Welt::vEinlesen(istream &in) {
 			in >> *pPkw >> sStartKreuzung >> dStartZeit;
 
 			/* PKW einsetzen */
-			Kreuzung *pStartKreuzung = static_cast<Kreuzung *>(AktivesVO::pObjekt(sStartKreuzung));
+			Kreuzung *pStartKreuzung = dynamic_cast<Kreuzung *>(AktivesVO::pObjekt(sStartKreuzung));
 			pStartKreuzung->vAnnahme(pPkw, dStartZeit);
 		}
 		else if (sTyp == "FAHRRAD") {
@@ -99,7 +94,7 @@ void Welt::vEinlesen(istream &in) {
 			in >> *pRad >> sStartKreuzung >> dStartZeit;
 
 			/* PKW einsetzen */
-			Kreuzung *pStartKreuzung = static_cast<Kreuzung *>(AktivesVO::pObjekt(sStartKreuzung));
+			Kreuzung *pStartKreuzung = dynamic_cast<Kreuzung *>(AktivesVO::pObjekt(sStartKreuzung));
 			pStartKreuzung->vAnnahme(pRad, dStartZeit);
 		}
 		else if (sTyp != "") {
@@ -144,14 +139,14 @@ void Welt::vEinlesenMitGrafik(istream &in) {
 			}
 
 			/* Kreuzungen suchen */
-			Kreuzung *pQuellKreuzung = static_cast<Kreuzung *>(AktivesVO::pObjekt(sQuellKreuzung));
-			Kreuzung *pZielKreuzung = static_cast<Kreuzung *>(AktivesVO::pObjekt(sZielKreuzung));
+			Kreuzung *pQuellKreuzung = dynamic_cast<Kreuzung *>(AktivesVO::pObjekt(sQuellKreuzung));
+			Kreuzung *pZielKreuzung = dynamic_cast<Kreuzung *>(AktivesVO::pObjekt(sZielKreuzung));
 
 			/* Kreuzungen verbinden & Wege erstellen */
 			pQuellKreuzung->vVerbinde(pZielKreuzung, sHinweg, sRueckweg, dLaenge, static_cast<Weg::Begrenzung >(eLimit), bUeberholverbot);
 
 			/* Wege Zeichnen */
-			Weg *pHinweg = static_cast<Weg *>(AktivesVO::pObjekt(sHinweg));
+			Weg *pHinweg = dynamic_cast<Weg *>(AktivesVO::pObjekt(sHinweg));
 			pHinweg->vZeichnen(iAnzahlKoordinaten, iPoly);
 		}
 		else if (sTyp == "PKW") {
@@ -163,7 +158,7 @@ void Welt::vEinlesenMitGrafik(istream &in) {
 			in >> *pPkw >> sStartKreuzung >> dStartZeit;
 
 			/* PKW einsetzen */
-			Kreuzung *pStartKreuzung = static_cast<Kreuzung *>(AktivesVO::pObjekt(sStartKreuzung));
+			Kreuzung *pStartKreuzung = dynamic_cast<Kreuzung *>(AktivesVO::pObjekt(sStartKreuzung));
 			pStartKreuzung->vAnnahme(pPkw, dStartZeit);
 		}
 		else if (sTyp == "FAHRRAD") {
@@ -175,7 +170,7 @@ void Welt::vEinlesenMitGrafik(istream &in) {
 			in >> *pRad >> sStartKreuzung >> dStartZeit;
 
 			/* PKW einsetzen */
-			Kreuzung *pStartKreuzung = static_cast<Kreuzung *>(AktivesVO::pObjekt(sStartKreuzung));
+			Kreuzung *pStartKreuzung = dynamic_cast<Kreuzung *>(AktivesVO::pObjekt(sStartKreuzung));
 			pStartKreuzung->vAnnahme(pRad, dStartZeit);
 		}
 		else if (sTyp != "") {

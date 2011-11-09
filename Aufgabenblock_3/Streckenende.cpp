@@ -13,15 +13,21 @@ Streckenende::~Streckenende()
 
 void Streckenende::vBearbeiten() {
 	Kreuzung *pZielKreuzung = p_pWeg->getZielKreuzung();
-	Weg *pNeuerWeg = pZielKreuzung->pZufaelligerWeg(p_pWeg); /* wähle zufälligen Weg */
 
 	p_pWeg->vAbgabe(p_pFahrzeug);
-	pZielKreuzung->vTanken(p_pFahrzeug);
-	pZielKreuzung->vAnnahme(p_pFahrzeug, 0, pNeuerWeg);
 
 	cerr << "Fahrausnahme: Fahrzeug wird umgesetzt ("
-			<< "Fzg: " << p_pFahrzeug->getName()
-			<< ", Weg: " << p_pWeg->getName() << " => " << pNeuerWeg->getName()
-			<< ", Kreuz.: " << pZielKreuzung->getName() << " (Tank: " << pZielKreuzung->getTankinhalt() << ")"
-			<< ")" << endl;
+		<< "Fzg: " << p_pFahrzeug->getName()
+		<< ", Weg: " << p_pWeg->getName();
+
+	if (pZielKreuzung != NULL) {
+		Weg *pNeuerWeg = pZielKreuzung->pZufaelligerWeg(p_pWeg); /* wähle zufälligen Weg */
+
+		pZielKreuzung->vTanken(p_pFahrzeug);
+		pZielKreuzung->vAnnahme(p_pFahrzeug, 0, pNeuerWeg);
+
+		cerr << " => " << pNeuerWeg->getName() << ", Kreuz.: " << pZielKreuzung->getName() << " (Tank: " << pZielKreuzung->getTankinhalt() << ")";
+	}
+
+	cerr << ")" << endl;
 }

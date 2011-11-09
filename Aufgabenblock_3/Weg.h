@@ -17,7 +17,7 @@ class Kreuzung;
 class Weg : public AktivesVO {
 public:
 	typedef enum {
-		Innerorts,		/* 50 km/h */
+		Innerorts = 1,	/* 50 km/h */
 		Landstrasse,	/* 100 km/h */
 		Autobahn		/* unbegrenzt */
 	} Begrenzung;

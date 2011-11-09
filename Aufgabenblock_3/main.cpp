@@ -279,14 +279,16 @@ void vAufgabe6a(int argc, char *argv[]) {
 
 void vAufgabe7(int argc, char *argv[]) {
 	PKW vw("Golf", 120, 10, 90);
+	PKW vw2("Auto", 55, 12, 80);
 	Fahrrad velo("Haibike", 42);
 
-	Weg hin("Hinweg", 500.0, Weg::Landstrasse);
-	Weg rueck("Rueckweg", 500.0, Weg::Landstrasse);
+	Weg hin("Hinweg", 200.0, Weg::Landstrasse);
+	Weg rueck("Rueckweg", 200.0, Weg::Landstrasse);
 
 	hin.setRueckweg(&rueck);
 	rueck.setRueckweg(&hin);
 
+	bool bAngenommen = false;
 	bool bStarted = bInitialisiereGrafik(800, 600);
 	if (!bStarted) {
 		cerr << "Konnte Simulationsserver nicht starten!" << endl;
@@ -295,20 +297,26 @@ void vAufgabe7(int argc, char *argv[]) {
 	Koordinaten iPoly[] = {{100, 100}, {700, 500} };
 	hin.vZeichnen(2, iPoly);
 
-	hin.vAnnahme(&vw, 8);
+	hin.vAnnahme(&vw, 4);
 	hin.vAnnahme(&velo, 1);
 
 	Fahrzeug::vAusgabeHeader();
-	for (dGlobaleZeit = 0; dGlobaleZeit <= 30; dGlobaleZeit += 0.5) {
+	for (dGlobaleZeit = 0; dGlobaleZeit < 9.4; dGlobaleZeit += 0.1) {
 		hin.vAbfertigung();
 
 		hin.vZeichnen();
 		rueck.vZeichnen();
 
-		cout << vw << endl << velo << endl << hin << endl << "--" << endl;
+		if (dGlobaleZeit > 4 && !bAngenommen) {
+			hin.vAnnahme(&vw2, dGlobaleZeit + 1);
+			bAngenommen = true;
+		}
+
+		Fahrzeug::vAusgabeHeader();
+		cout << hin << endl << "--" << endl;
 
 		vSetzeZeit(dGlobaleZeit);
-		Sleep(500);
+		Sleep(100);
 	}
 
 	vBeendeGrafik();
@@ -318,7 +326,7 @@ void vAufgabe8(int argc, char *argv[]) {
 	bInitialisiereGrafik(1000, 700);
 
 	PKW vw("Golf", 120, 10, 90);
-	PKW ferrari("Ferrari", 320, 15, 210);
+	PKW ferrari("Ferrari", 120, 15, 210);
 	Fahrrad velo("Haibike", 42);
 
 	Kreuzung kr1("K1");
@@ -357,9 +365,9 @@ void vAufgabe8(int argc, char *argv[]) {
 	bZeichneStrasse("W34", "W43", 85, 5, (int *) iW34);
 	bZeichneStrasse("W44a", "W44b", 130, 7, (int *) iW44);
 
-	kr1.vAnnahme(&vw);
-	kr1.vAnnahme(&velo);
-	kr2.vAnnahme(&ferrari, 5);
+	kr1.vAnnahme(&vw, 1);
+	kr1.vAnnahme(&velo, 2);
+	kr2.vAnnahme(&ferrari, 3);
 
 	for (dGlobaleZeit = 0.3; dGlobaleZeit <= 24; dGlobaleZeit += 0.01) {
 		kr1.vAbfertigung();
@@ -394,7 +402,6 @@ void vAufgabe9(int argc, char *argv[]) {
 	ifstream File;
 
 	File.open(argv[1]);
-
 	if(!File.good()) {
 		throw string("Datei existiert nicht!");
 	}
@@ -406,10 +413,7 @@ void vAufgabe9(int argc, char *argv[]) {
 	File >> pkw >> rad >> krz;
 
 	Fahrzeug::vAusgabeHeader();
-	cout
-		<< pkw << endl
-		<< rad << endl
-		<< krz << endl;
+	cout << pkw << endl << rad << endl << krz << endl;
 
 	/* Teste map */
 	string sName;
@@ -418,14 +422,15 @@ void vAufgabe9(int argc, char *argv[]) {
 	cout << *AktivesVO::pObjekt(sName) << endl;
 
 	cout << endl;
-	PKW pkw2("Porsche", 99);
+	cout << "Geben Sie einen Namen zum Erstellen ein: ";
+	cin >> sName;
+	PKW pkw2(sName, 99);
 }
 
 void vAufgabe9a(int argc, char *argv[]) {
 	ifstream File;
 
 	File.open(argv[1]);
-
 	if(!File.good()) {
 		throw string("Datei existiert nicht!");
 	}
@@ -435,14 +440,15 @@ void vAufgabe9a(int argc, char *argv[]) {
 	Welt tErde;
 	tErde.vEinlesenMitGrafik(File);
 
-	for (dGlobaleZeit = 0; dGlobaleZeit < 24*31; dGlobaleZeit += 0.1) {
+	for (dGlobaleZeit = 0; dGlobaleZeit < 24*31; dGlobaleZeit += 0.01) {
 		tErde.vAbfertigung();
 		tErde.vZeichnen();
 
+		Fahrzeug::vAusgabeHeader();
 		cout << tErde << "--" << endl;
 
 		vSetzeZeit(dGlobaleZeit);
-		Sleep(500);
+		Sleep(30);
 	}
 
 	vBeendeGrafik();

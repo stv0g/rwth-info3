@@ -75,8 +75,8 @@ void PKW::vAbfertigung() {
 ostream& PKW::ostreamAusgabe(ostream &stream) const {
 	Fahrzeug::ostreamAusgabe(stream) << setprecision(2) << setiosflags(ios::fixed)
 		<< resetiosflags(ios::left) << setiosflags(ios::right)
-		<< setw(12) << dVerbrauch()
-		<< setw(13) << p_dTankinhalt;
+		<< setw(11) << dVerbrauch()
+		<< setw(12) << p_dTankinhalt;
 
 	return stream;
 }
