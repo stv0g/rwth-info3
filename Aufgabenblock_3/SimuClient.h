@@ -1,9 +1,9 @@
 /* 
- * SimuClient fï¿½r MacOS/Linux (Praktikum Informatik 2, WS 2009/10 RWTH Aachen)
+ * SimuClient für MacOS/Linux (Praktikum Informatik 2, WS 2009/10 RWTH Aachen)
  * Version 0.5
  * von Robert Uhl, 2009 - 2010
- * Vielen Dank an den Lehrstuhl EECS, RWTH Aachen, fï¿½r den Zugang zum Quellcode
- * des SimuClient fï¿½r Windows.
+ * Vielen Dank an den Lehrstuhl EECS, RWTH Aachen, für den Zugang zum Quellcode
+ * des SimuClient für Windows.
  * Datei: SimuClient.h
  * Inhalt: SimuClient sendet Daten an den (erweiterten) Java-Grafik-Server
  */
@@ -14,11 +14,6 @@
 #include <string>
 using namespace std;
 
-typedef struct {
-	int x;
-	int y;
-} Koordinaten;
-
 // Funktionen der Library
 bool bInitialisiereGrafik(int sizeX, int sizeY, bool bStarteServer = true, const string& sServer = "localhost", const unsigned short iPort = 7654);
 bool bZeichneKreuzung(int posX, int posY);
@@ -26,10 +21,10 @@ bool bZeichneStrasse(const string& way_to_name, const string& way_back_name, int
 bool bZeichnePKW(const string& carname, const string& streetname, double rel_position, double speed, double tank);
 bool bZeichneFahrrad(const string& bikename, const string& streetname, double relposition, double speed);
 void vSetzeZeit(const double dTime);	// sendet die Simulationszeit an den erweiterten Grafikserver
-void Sleep(const int mSec);				// ersetzt die Sleep()-Funktion von Windows, die mSek ï¿½bernimmt
+void Sleep(const int mSec);				// ersetzt die Sleep()-Funktion von Windows, die mSek übernimmt
 void vBeendeGrafik(void);
 
-// Zusï¿½tzliche Schnittstellen wegen eventueller Konvertierungsprobleme bei string/char*
+// Zusätzliche Schnittstellen wegen eventueller Konvertierungsprobleme bei string/char*
 bool bZeichneStrasse(const char* way_to_name, const char* way_back_name, int length, int numPoints, int* points_xy);
 bool bZeichneStrasse(const string& way_to_name, const char* way_back_name, int length, int numPoints, int* points_xy);
 bool bZeichneStrasse(const char* way_to_name, const string& way_back_name, int length, int numPoints, int* points_xy);
