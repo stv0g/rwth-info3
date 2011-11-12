@@ -148,6 +148,7 @@ void Welt::vEinlesenMitGrafik(istream &in) {
 			/* Wege Zeichnen */
 			Weg *pHinweg = dynamic_cast<Weg *>(AktivesVO::pObjekt(sHinweg));
 			pHinweg->vZeichnen(iAnzahlKoordinaten, iPoly);
+            delete iPoly;
 		}
 		else if (sTyp == "PKW") {
 			PKW *pPkw = new PKW();

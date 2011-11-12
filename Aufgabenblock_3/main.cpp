@@ -4,7 +4,9 @@
 #include <vector>
 #include <stdlib.h>
 
-#ifdef _WIN32	/* _Win32 is usually defined by compilers targeting 32 or 64 bit Windows systems */
+#include "../TinyXml/tinyxml.h"
+
+#ifdef _WIN32 /* _Win32 is usually defined by compilers targeting 32 or 64 bit Windows systems */
 #include <windows.h>
 #endif
 
@@ -401,6 +403,10 @@ void vAufgabe8(int argc, char *argv[]) {
 void vAufgabe9(int argc, char *argv[]) {
 	ifstream File;
 
+	if (argc <= 1) {
+		throw string("Geben sie eine Datei als 1. Parameter an!");
+	}
+
 	File.open(argv[1]);
 	if(!File.good()) {
 		throw string("Datei existiert nicht!");
@@ -427,8 +433,17 @@ void vAufgabe9(int argc, char *argv[]) {
 	PKW pkw2(sName, 99);
 }
 
+void vParseOSM(int argc, char *argv[]) {
+    TiXmlDocument doc( "demo.xml" );
+    doc.LoadFile();
+}
+
 void vAufgabe9a(int argc, char *argv[]) {
 	ifstream File;
+
+	if (argc <= 1) {
+		throw string("Geben sie eine Datei als 1. Parameter an!");
+	}
 
 	File.open(argv[1]);
 	if(!File.good()) {
@@ -444,11 +459,11 @@ void vAufgabe9a(int argc, char *argv[]) {
 		tErde.vAbfertigung();
 		tErde.vZeichnen();
 
-		Fahrzeug::vAusgabeHeader();
-		cout << tErde << "--" << endl;
+		//Fahrzeug::vAusgabeHeader();
+		//cout << tErde << "--" << endl;
 
 		vSetzeZeit(dGlobaleZeit);
-		Sleep(30);
+		Sleep(40);
 	}
 
 	vBeendeGrafik();
@@ -499,7 +514,7 @@ int main(int argc, char *argv[]) {
     	pAufgaben[iWahl](argc, argv); /* Funktionspointer aufrufen */
     }
     catch (string &exception) {
-    	cerr << exception << endl;
+    	cerr << "EXCEPTION: " << exception << endl;
     	exit(-1);
     }
 
