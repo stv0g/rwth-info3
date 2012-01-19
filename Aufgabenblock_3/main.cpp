@@ -433,11 +433,6 @@ void vAufgabe9(int argc, char *argv[]) {
 	PKW pkw2(sName, 99);
 }
 
-void vParseOSM(int argc, char *argv[]) {
-    TiXmlDocument doc( "demo.xml" );
-    doc.LoadFile();
-}
-
 void vAufgabe9a(int argc, char *argv[]) {
 	ifstream File;
 
@@ -450,12 +445,15 @@ void vAufgabe9a(int argc, char *argv[]) {
 		throw string("Datei existiert nicht!");
 	}
 
-	bInitialisiereGrafik(1000, 900);
+	bInitialisiereGrafik(1000, 1000);
 
 	Welt tErde;
 	tErde.vEinlesenMitGrafik(File);
 
-	for (dGlobaleZeit = 0; dGlobaleZeit < 24*31; dGlobaleZeit += 0.01) {
+	double dInterval = 5.0/60; /* in Stunden */
+	double dRatio = 500;
+
+	for (dGlobaleZeit = 0; dGlobaleZeit < 24; dGlobaleZeit += dInterval) {
 		tErde.vAbfertigung();
 		tErde.vZeichnen();
 
@@ -463,7 +461,7 @@ void vAufgabe9a(int argc, char *argv[]) {
 		//cout << tErde << "--" << endl;
 
 		vSetzeZeit(dGlobaleZeit);
-		Sleep(40);
+		Sleep(60*60 * dInterval * 1000 / dRatio); /* in ms */
 	}
 
 	vBeendeGrafik();
@@ -475,6 +473,9 @@ typedef void (*aufgabe_t)(int argc, char *argv[]);
 int main(int argc, char *argv[]) {
 	/* PRNG mit konstantem seed initialisieren */
 	srand(55);
+
+	vAufgabe9a(argc, argv);
+	return 0; /* skip the rest */
 
 	int iWahl;
 

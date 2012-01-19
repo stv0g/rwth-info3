@@ -19,7 +19,7 @@ public:
 	typedef enum {
 		Innerorts = 1,	/* 50 km/h */
 		Landstrasse,	/* 100 km/h */
-		Autobahn		/* unbegrenzt */
+		Autobahn	/* unbegrenzt */
 	} Begrenzung;
 
 	Weg();

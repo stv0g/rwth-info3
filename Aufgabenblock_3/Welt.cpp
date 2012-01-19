@@ -113,7 +113,7 @@ void Welt::vEinlesenMitGrafik(istream &in) {
 			Koordinaten iPos;
 			in >> *pKr >> iPos.x >> iPos.y;
 
-			pKr->vZeichnen(iPos);
+			//pKr->vZeichnen(iPos);
 			p_pKreuzungen.push_back(pKr);
 		}
 		else if (sTyp == "STRASSE") {

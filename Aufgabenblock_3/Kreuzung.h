@@ -17,7 +17,7 @@ public:
 	void vAbfertigung();
 	void vZeichnen() const;
 	void vZeichnen(Koordinaten iKoordinaten) const;
-	Weg * pZufaelligerWeg(Weg *pAlterWeg);
+	Weg * pZufaelligerWeg(Weg *pAlterWeg = NULL);
 
 	double getTankinhalt();
 

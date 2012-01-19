@@ -44,10 +44,10 @@ void Kreuzung::vTanken(Fahrzeug *pFz) {
 
 void Kreuzung::vAnnahme(Fahrzeug *pFz, double dStartZeit, Weg *pNeuerWeg) {
 	if (pNeuerWeg != NULL) {
-		pNeuerWeg->vAnnahme(pFz, dStartZeit);
+		pZufaelligerWeg()->vAnnahme(pFz, dStartZeit);
 	}
 	else {
-		p_lWege.front()->vAnnahme(pFz, dStartZeit);
+		pZufaelligerWeg()->vAnnahme(pFz, dStartZeit);
 	}
 }
 
@@ -105,6 +105,10 @@ istream& Kreuzung::istreamEingabe(istream &stream) {
 Weg * Kreuzung::pZufaelligerWeg(Weg *pAlterWeg) {
 	Weg *pZufallWeg = NULL;
 
+	if (p_lWege.size() == 1) {
+		return p_lWege.front();
+	}
+
 	do {
 		list<Weg *>::iterator it;
 		int iZufall = rand() % p_lWege.size();
@@ -115,7 +119,7 @@ Weg * Kreuzung::pZufaelligerWeg(Weg *pAlterWeg) {
 
 			if (i++ >= iZufall) break;
 		}
-	} while (pZufallWeg == pAlterWeg->getRueckweg() && p_lWege.size() > 1);
+	} while (pAlterWeg && pZufallWeg == pAlterWeg->getRueckweg());
 
 	return pZufallWeg;
 }

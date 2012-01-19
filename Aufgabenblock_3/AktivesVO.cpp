@@ -32,7 +32,7 @@ AktivesVO::~AktivesVO() {
 void AktivesVO::vRegister() {
 	map<string, AktivesVO*>::iterator result = p_pObjekte.find(p_sName);
 	if (result != p_pObjekte.end()) {
-		throw string("Ein Objekt mit dem Namen existiert bereits!");
+		throw string("Ein Objekt mit dem Namen existiert bereits! ") + p_sName;
 	}
 
 	p_pObjekte[p_sName] = this;
