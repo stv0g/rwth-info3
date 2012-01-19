@@ -14,6 +14,15 @@
 #include <string>
 using namespace std;
 
+typedef union {
+	struct {
+		int x, y;
+	};
+	struct {
+		int width, height;
+	};
+} Koordinaten;
+
 // Funktionen der Library
 bool bInitialisiereGrafik(int sizeX, int sizeY, bool bStarteServer = true, const string& sServer = "localhost", const unsigned short iPort = 7654);
 bool bZeichneKreuzung(int posX, int posY);
